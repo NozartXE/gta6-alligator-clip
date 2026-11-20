@@ -11,4 +11,13 @@ const botDir = process.env.MAKEFUN_BOT_DIR ?? ".";
 const outputDir = process.env.MAKEFUN_OUTPUT_DIR ?? "/output";
 
 mkdirSync(outputDir, { recursive: true });
-copyFileSync(join(botDir, "VIDEO.json"), join(outputDir, "VIDEO.json"));
+try {
+  copyFileSync(join(botDir, "VIDEO.json"), join(outputDir, "VIDEO.json"));
+} catch (err) {
+  console.error(
+    `Error: failed to copy VIDEO.json to the output directory: ${
+      err instanceof Error ? err.message : String(err)
+    }`,
+  );
+  process.exit(1);
+}
